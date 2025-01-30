@@ -67,6 +67,7 @@ class FreeplayState extends MusicBeatState
 	var missingText:FlxText;
 	var songSearchText:FlxUIInputText;
 	var buttonTop:FlxButton;
+	var beatBeep = [];
 
 	var player:MusicPlayer;
 
@@ -245,6 +246,15 @@ class FreeplayState extends MusicBeatState
 
 		player = new MusicPlayer(this);
 		add(player);
+
+		for (i in 0...65)
+		{
+			beatBeep.push(new FlxSprite());
+			beatBeep[i].makeGraphic(17, 120, FlxColor.GREEN);
+			beatBeep[i].x = (20 * i) - 10;
+			beatBeep[i].y = 720;
+			add(beatBeep[i]);
+		}
 
 		changeSelection();
 		changeDiff();
@@ -763,11 +773,14 @@ class FreeplayState extends MusicBeatState
 
         // Use the floor value for the compact representation
         var compactValue:Float = Math.floor(num * 100) / 100;
-	if (compactValue <= 0.001) {
-		return "0"; //Return 0 if compactValue = null
-	} else {
-        	return compactValue + (magnitude == 0 ? "" : "") + suffixes[magnitude];
-	}
+		if (compactValue <= 0.001)
+		{
+			return "0"; // Return 0 if compactValue = null
+		}
+		else
+		{
+			return compactValue + (magnitude == 0 ? "" : "") + suffixes[magnitude];
+		}
     }
 
 	function changeSelection(change:Int = 0, playSound:Bool = true)
@@ -901,7 +914,21 @@ class FreeplayState extends MusicBeatState
 		super.beatHit();
 
 		if (curPlaying)
-			if (grpIcons.members[instPlaying] != null && grpIcons.members[instPlaying].canBounce) grpIcons.members[instPlaying].bounce();
+		{
+			if (grpIcons.members[instPlaying] != null && grpIcons.members[instPlaying].canBounce)
+			{
+				grpIcons.members[instPlaying].bounce();
+
+				for (i in 0...65)
+				{
+					beatBeep[i].y = 700 - FlxG.random.float(0, 100);
+					beatBeep[i].alpha = 1;
+					beatBeep[i].angle = FlxG.random.float(-6, 6);
+					beatBeep[i].color = songs[curSelected].color;
+					FlxTween.tween(beatBeep[i], {y: 720, angle: 0, alpha: 0}, 55 / PlayState.SONG.bpm, {ease: FlxEase.expoIn});
+				}
+			}
+		}
 	}
 	var _drawDistance:Int = 4;
 	var _lastVisibles:Array<Int> = [];

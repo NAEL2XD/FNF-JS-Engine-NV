@@ -111,6 +111,39 @@ class StartupState extends MusicBeatState
 		#if debug // for testing purposes
 			startVideo('broCopiedDenpa', 'splash');
 		#else
+		for (i in 1...100)
+		{
+			var peep:FlxSprite = new FlxSprite();
+			var x:Float = FlxG.random.float(-32, 1316);
+			peep.makeGraphic(32, 32, FlxColor.RED);
+			peep.x = x;
+			peep.y = FlxG.random.float(-200, -800);
+			FlxTween.tween(peep, {x: x + FlxG.random.float(-250, 250), y: 760, angle: FlxG.random.float(-180, 180)}, FlxG.random.float(1.5, 2), {
+				onComplete: function(e)
+				{
+					peep.destroy();
+				},
+				ease: FlxEase.expoIn
+			});
+			add(peep);
+		}
+
+		var textWelcoem:FlxText = new FlxText(0, 0, 0, "Modded by Nael2xd", 42);
+		textWelcoem.setFormat(Paths.font("vcr.ttf"), 60, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.RED);
+		textWelcoem.screenCenter();
+		textWelcoem.y = 820;
+		textWelcoem.borderSize = 1.25;
+		textWelcoem.alpha = 0;
+		FlxTween.tween(textWelcoem, {alpha: 1, angle: 360, y: 630}, 0.95, {
+			ease: FlxEase.backOut,
+			onComplete: function(e)
+			{
+				FlxTween.tween(textWelcoem, {alpha: 0, "scale.x": 0, "scale.y": 0}, 0.95, {ease: FlxEase.expoIn});
+			}
+		});
+		add(textWelcoem);
+
+		maxIntros = 0;
 		final theIntro:Int = FlxG.random.int(0, maxIntros);
 		switch (theIntro) {
 			case 0:
@@ -119,7 +152,7 @@ class StartupState extends MusicBeatState
 				logo.updateHitbox();
 				logo.screenCenter();
 				FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 0.95, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
-			case 1:
+				/*case 1:
 				FlxG.sound.play(Paths.sound('startup', 'splash'));
 				FlxG.sound.play(Paths.sound('FIREINTHEHOLE', 'splash'));
 				logo.loadGraphic(Paths.image('lobotomy', 'splash'));
@@ -166,6 +199,7 @@ class StartupState extends MusicBeatState
 				} 
 				else 
 					doIntro();
+				 */
 		}
 		#end
 	}
