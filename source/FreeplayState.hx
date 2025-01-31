@@ -68,6 +68,7 @@ class FreeplayState extends MusicBeatState
 	var songSearchText:FlxUIInputText;
 	var buttonTop:FlxButton;
 	var beatBeep = [];
+	var beatLeft = 0;
 
 	var player:MusicPlayer;
 
@@ -602,6 +603,7 @@ class FreeplayState extends MusicBeatState
 					grpIcons.members[instPlaying].canBounce = true;
 					curPlaying = true;
 					#end
+					beatLeft = 0;
 
 					if (FlxG.keys.pressed.SHIFT) {
 						for (section in PlayState.SONG.notes) {
@@ -919,13 +921,19 @@ class FreeplayState extends MusicBeatState
 			{
 				grpIcons.members[instPlaying].bounce();
 
-				for (i in 0...65)
+				beatLeft++;
+				if (beatLeft == 4)
 				{
-					beatBeep[i].y = 700 - FlxG.random.float(0, 100);
-					beatBeep[i].alpha = 1;
-					beatBeep[i].angle = FlxG.random.float(-6, 6);
-					beatBeep[i].color = songs[curSelected].color;
-					FlxTween.tween(beatBeep[i], {y: 720, angle: 0, alpha: 0}, 55 / PlayState.SONG.bpm, {ease: FlxEase.expoIn});
+					beatLeft = 1;
+					//trace(songs[curSelected].color);
+					for (i in 0...65)
+					{
+						beatBeep[i].y = 700 - FlxG.random.float(0, 100);
+						beatBeep[i].alpha = 1;
+						beatBeep[i].angle = FlxG.random.float(-6, 6);
+						beatBeep[i].color = songs[curSelected].color; // how do i fix this
+						FlxTween.tween(beatBeep[i], {y: 720, angle: 0, alpha: 0}, (55/PlayState.SONG.bpm)*4, {ease: FlxEase.expoIn});
+					}
 				}
 			}
 		}

@@ -31,7 +31,7 @@ class FPSCounter extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("VCR OSD Mono", 12, color);
+		defaultTextFormat = new TextFormat("nintendo_NTLG-DB_001", 12, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";

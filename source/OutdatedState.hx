@@ -53,7 +53,7 @@ class OutdatedState extends MusicBeatState
 			"HEY! Your JS Engine is outdated!\n"
 			+ 'v' + MainMenuState.psychEngineJSVersion + ' < v' + TitleState.updateVersion + '\n'
 			,32);
-		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		warnText.setFormat("nintendo_NTLG-DB_001", 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		warnText.screenCenter(X);
 		add(warnText);
 
@@ -64,7 +64,7 @@ class OutdatedState extends MusicBeatState
 		updateText = new FlxText(0, 10, FlxG.width,
 			"Press SPACE to view the full changelog, ENTER to update or ESCAPE to ignore this!"
 			,24);
-		updateText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		updateText.setFormat("nintendo_NTLG-DB_001", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			updateText.y = 710 - updateText.height;
 			updateText.x = 10;
 		add(updateText);
