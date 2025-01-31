@@ -3404,7 +3404,12 @@ class PlayState extends MusicBeatState
 			// formatNumber(Math.abs(totalNotesPlayed))
 			botplayTxt.text = '${formatNumber(Math.abs(enemyHits))}/${formatNumber(Math.abs(totalNotesPlayed))}\nNPS: ${formatNumber(nps)}/${formatNumber(maxNPS)}\nOpp NPS: ${formatNumber(oppNPS)}/${formatNumber(maxOppNPS)}';
 			if (polyphonyOppo != 1 || polyphonyBF != 1)
-				botplayTxt.text += '\nNote Multiplier: ' + formatNumber(polyphonyOppo) + "/" + formatNumber(polyphonyBF);
+			{
+				var set:String = formatNumber(polyphonyBF);
+				if (formatNumber(polyphonyOppo) != formatNumber(polyphonyBF))
+					set = formatNumber(polyphonyOppo) + "/" + formatNumber(polyphonyBF);
+				botplayTxt.text += '\nNote Multiplier: ' + set;
+			}
 		}
 
 		callOnLuas('onUpdate', [elapsed]);
@@ -3557,82 +3562,6 @@ class PlayState extends MusicBeatState
 		if(botplayTxt != null && botplayTxt.visible && ClientPrefs.botTxtFade) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180 * playbackRate);
-		}
-		if((botplayTxt != null && cpuControlled && !ClientPrefs.showcaseMode) && ClientPrefs.randomBotplayText) {
-			if(botplayTxt.text == "this text is gonna kick you out of botplay in 10 seconds" && !botplayUsed || botplayTxt.text == "Your Botplay Free Trial will end in 10 seconds." && !botplayUsed)
-				{
-					botplayUsed = true;
-					new FlxTimer().start(10, function(tmr:FlxTimer)
-						{
-							cpuControlled = false;
-							botplayUsed = false;
-							botplayTxt.visible = false;
-						});
-				}
-			if(botplayTxt.text == "You use botplay? In 10 seconds I knock your botplay thing and text so you'll never use it >:)" && !botplayUsed)
-				{
-					botplayUsed = true;
-					new FlxTimer().start(10, function(tmr:FlxTimer)
-						{
-							cpuControlled = false;
-							botplayUsed = false;
-							FlxG.sound.play(Paths.sound('pipe'), 10);
-							botplayTxt.visible = false;
-							PauseSubState.botplayLockout = true;
-						});
-				}
-			if(botplayTxt.text == "you have 10 seconds to run." && !botplayUsed)
-				{
-					botplayUsed = true;
-					new FlxTimer().start(10, function(tmr:FlxTimer)
-						{
-							#if VIDEOS_ALLOWED
-							startVideo('scary', function() Sys.exit(0));
-							#else
-							throw 'You should RUN, any minute now.'; // thought this'd be cooler
-							// Sys.exit(0);
-							#end
-						});
-				}
-			if(botplayTxt.text == "you're about to die in 30 seconds" && !botplayUsed)
-				{
-					botplayUsed = true;
-					new FlxTimer().start(30, function(tmr:FlxTimer)
-						{
-							health = 0;
-						});
-				}
-			if(botplayTxt.text == "3 minutes until Boyfriend steals your liver." && !botplayUsed)
-				{
-				var title:String = 'Incoming Alert from Boyfriend';
-				var message:String = '3 minutes until Boyfriend steals your liver!';
-				FlxG.sound.music.pause();
-				pauseVocals();
-
-				lime.app.Application.current.window.alert(message, title);
-				FlxG.sound.music.resume();
-				unpauseVocals();
-					botplayUsed = true;
-					new FlxTimer().start(180, function(tmr:FlxTimer)
-						{
-							Sys.exit(0);
-						});
-				}
-			if(botplayTxt.text == "3 minutes until I steal your liver." && !botplayUsed)
-				{
-				var title:String = 'Incoming Alert from Jordan';
-				var message:String = '3 minutes until I steal your liver.';
-				FlxG.sound.music.pause();
-				pauseVocals();
-
-				lime.app.Application.current.window.alert(message, title);
-				unpauseVocals();
-					botplayUsed = true;
-					new FlxTimer().start(180, function(tmr:FlxTimer)
-						{
-							Sys.exit(0);
-						});
-				}
 		}
 
 		if (controls.PAUSE && startedCountdown && canPause && !heyStopTrying)

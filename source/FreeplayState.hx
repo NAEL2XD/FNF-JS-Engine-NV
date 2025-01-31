@@ -924,14 +924,13 @@ class FreeplayState extends MusicBeatState
 				beatLeft++;
 				if (beatLeft == 4)
 				{
-					beatLeft = 1;
+					beatLeft = 0;
 					//trace(songs[curSelected].color);
 					for (i in 0...65)
 					{
 						beatBeep[i].y = 700 - FlxG.random.float(0, 100);
 						beatBeep[i].alpha = 1;
 						beatBeep[i].angle = FlxG.random.float(-6, 6);
-						beatBeep[i].color = songs[curSelected].color; // how do i fix this
 						FlxTween.tween(beatBeep[i], {y: 720, angle: 0, alpha: 0}, (55/PlayState.SONG.bpm)*4, {ease: FlxEase.expoIn});
 					}
 				}
