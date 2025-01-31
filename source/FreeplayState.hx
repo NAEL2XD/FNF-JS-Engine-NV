@@ -65,6 +65,7 @@ class FreeplayState extends MusicBeatState
 	var colorTween:FlxTween;
 	var missingTextBG:FlxSprite;
 	var missingText:FlxText;
+	var textStats:FlxText;
 	var songSearchText:FlxUIInputText;
 	var buttonTop:FlxButton;
 	var beatBeep = [];
@@ -180,7 +181,12 @@ class FreeplayState extends MusicBeatState
 		diffText.font = scoreText.font;
 		add(diffText);
 
+		textStats = new FlxText(16, 656, 0, "", 32);
+		textStats.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		textStats.font = scoreText.font;
+
 		add(scoreText);
+		add(textStats);
 
 		missingTextBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		missingTextBG.alpha = 0.6;
@@ -506,6 +512,7 @@ class FreeplayState extends MusicBeatState
 
 					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic), 0);
 					FlxTween.tween(FlxG.sound.music, {volume: 1}, 1);
+					textStats.text = "";
 				}
 				else 
 				{
@@ -607,10 +614,10 @@ class FreeplayState extends MusicBeatState
 
 					if (FlxG.keys.pressed.SHIFT) {
 						for (section in PlayState.SONG.notes) {
-						noteCount += section.sectionNotes.length;
-						requiredRamLoad += 72872 * section.sectionNotes.length;
+							noteCount += section.sectionNotes.length;
+							requiredRamLoad += 14228.8 * section.sectionNotes.length;
 						}
-						CoolUtil.coolError("There are " + FlxStringUtil.formatMoney(noteCount, false) + " notes in this chart!\nWith Show Notes turned on, you'd need " + FlxStringUtil.formatBytes(requiredRamLoad / 2) + " of ram to load this.", "JS Engine Chart Diagnosis");
+						textStats.text = FlxStringUtil.formatMoney(noteCount, false) + " notes. | Avg " + FlxStringUtil.formatBytes(requiredRamLoad / 2) + " RAM";
 					}
 					player.playingMusic = true;
 					player.curTime = 0;
