@@ -31,10 +31,10 @@ class FPSCounter extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("nintendo_NTLG-DB_001", 12, color);
+		defaultTextFormat = new TextFormat("nintendo_NTLG-DB_001", ClientPrefs.fpsSize, color);
 		autoSize = LEFT;
 		multiline = true;
-		text = "FPS: ";
+		text = "";
 
 		times = [];
 	}
@@ -92,11 +92,12 @@ class FPSCounter extends TextField
 
 	public dynamic function updateText():Void   // so people can override it in hscript
 	{
-		text = "FPS: " + (ClientPrefs.ffmpegMode ? ClientPrefs.targetFPS : Math.round(currentFPS));
+		text = "" + (ClientPrefs.ffmpegMode ? ClientPrefs.targetFPS : Math.round(currentFPS));
 		if (ClientPrefs.ffmpegMode)
 			text += " (Rendering Mode)";
 
-		if (ClientPrefs.showRamUsage) text += "\nRAM: " + FlxStringUtil.formatBytes(memory) + (ClientPrefs.showMaxRamUsage ? " / " + FlxStringUtil.formatBytes(mempeak) : "");
+		if (ClientPrefs.showRamUsage)
+			text += " | " + FlxStringUtil.formatBytes(memory) + (ClientPrefs.showMaxRamUsage ? " / " + FlxStringUtil.formatBytes(mempeak) : "");
 		if (ClientPrefs.debugInfo)
 		{
 			text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';

@@ -45,12 +45,16 @@ class MiscSettingsSubState extends BaseOptionsMenu
 			false); //Default value
 		addOption(option);
 
-		var option:Option = new Option('Disable Splash Screen', //Name
-			'If checked, the splash screen gets disabled on startup.', //Description
-			'disableSplash', //Save data variable name
-			'bool', //Variable type
-			false); //Default value
+		var option:Option = new Option('Disable Splash Screen', 'If checked, the splash screen gets disabled on startup.', 'disableSplash', 'bool', false);
 		addOption(option);
+		var option:Option = new Option('FPS Size',
+			'Whetever that you want to set the FPS Size.\nRequires a restart & Requires "Disable Splash Screen" to be disabled.', 'fpsSize', 'int', 16);
+		addOption(option);
+		option.scrollSpeed = 0.25;
+		option.minValue = 1;
+		option.maxValue = 48;
+		option.changeValue = 1;
+		option.decimals = 0;
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];
 		
